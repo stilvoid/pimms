@@ -1,13 +1,13 @@
 var fs = require("fs");
 var path = require("path");
-var spawn = require("child_process").spawn;
+var exec = require("child_process").exec;
 
 var nosef = require("nosef");
 
 var dir = process.cwd();
 
-var media_player_command = "mplayer";
-var media_player_options = [];
+var media_player_command = "omxplayer";
+var media_player_options = [""];
 
 var current_player = null;
 
@@ -73,6 +73,9 @@ function cd(request, response, params) {
 function stop_player() {
     if(current_player) {
         current_player.kill();
+
+        exec("killall omxplayer.bin");
+
         current_player = null;
     }
 }
@@ -86,7 +89,10 @@ function play(request, response, params) {
         if(err) {
             response.error("Could not play " + file);
         } else {
-            current_player = spawn(media_player_command, media_player_options.concat(file));
+            console.log("Playing:", file);
+
+            var command = media_player_command + " " + media_player_options.join(" ") + "\"" + file + "\" &";
+            current_player = exec(command);
 
             response.JSON(file);
         }
@@ -100,7 +106,7 @@ function stop(request, response) {
 }
 
 var config = {
-    port: 8001,
+    port: 80,
     host: "0.0.0.0",
     middleware: function(request, response) {
         console.log(request.url);
