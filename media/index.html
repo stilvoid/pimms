@@ -22,6 +22,7 @@
     <script>
         var folder_div = document.getElementById("folders");
         var file_div = document.getElementById("files");
+        var stop_div = document.getElementById("stop");
 
         function cd(dir) {
             jQuery.get("/cd/", {path: encodeURIComponent(dir)}, function(data) {
@@ -51,17 +52,23 @@
 
                     file_div.appendChild(link);
                 });
+            }).error(function() {
+                cd("");
             });
         }
 
         function play(file) {
             jQuery.get("/play/", {path: encodeURIComponent(file)}, function(data) {
+                stop_div.style.display = "inline-block";
                 console.log(data);
+            }).error(function() {
+                cd("");
             });
         }
 
-        document.getElementById("stop").onclick = function() {
+        stop_div.onclick = function() {
             jQuery.get("/stop/");
+            stop_div.style.display = "none";
         };
 
         setTimeout(function() {

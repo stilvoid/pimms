@@ -23,6 +23,7 @@ body {
 }
 
 #stop {
+    display: none;
     background: #dcc;
 }
 
