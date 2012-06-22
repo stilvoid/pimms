@@ -1,11 +1,10 @@
-body, html {
+body {
     background: #eee;
     margin: 0 auto;
     text-align: center;
-    width: 800px;
 }
 
-#folders span, #files span {
+#folders a, #files a, #stop {
     margin: 1em;
     padding: 1em;
     border: 1px solid #aaa;
@@ -15,15 +14,19 @@ body, html {
     display: inline-block;
 }
 
-#folders span {
+#folders a {
     background: #ccd;
 }
 
-#files span {
+#files a {
     background: #cdc;
 }
 
-#folders span:hover, #files span:hover {
+#stop {
+    background: #dcc;
+}
+
+#folders a:hover, #files a:hover, #stop:hover {
     background: #eee;
     cursor: pointer;
 }

@@ -70,12 +70,17 @@ function cd(request, response, params) {
     });
 }
 
+function stop_player() {
+    if(current_player) {
+        current_player.kill();
+        current_player = null;
+    }
+}
+
 function play(request, response, params) {
     var file = path.join(dir, path.normalize(decodeURIComponent(params.get.path)));
 
-    if(current_player) {
-        current_player.kill();
-    }
+    stop_player();
 
     fs.stat(file, function(err, data) {
         if(err) {
@@ -88,6 +93,12 @@ function play(request, response, params) {
     });
 }
 
+function stop(request, response) {
+    stop_player();
+
+    response.JSON("OK");
+}
+
 var config = {
     port: 8001,
     host: "0.0.0.0",
@@ -97,8 +108,9 @@ var config = {
     urls: [
         ["/play/", play],
         ["/cd/", cd],
+        ["/stop/", stop],
         ["/media/{{path}}", nosef.handlers.file("./media/", "path")],
-        ["/", nosef.handlers.file("./media/index.html")],
+        ["/", nosef.handlers.file("./media/index.html")]
     ]
 };
 
