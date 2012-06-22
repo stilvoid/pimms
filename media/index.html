@@ -24,7 +24,7 @@
         function cd(dir) {
             var link;
 
-            jQuery.get("/cd/?path=" + encodeURIComponent(dir), function(data) {
+            jQuery.get("/cd/", {path: encodeURIComponent(dir)}, function(data) {
                 folder_div.innerHTML = "";
                 file_div.innerHTML = "";
 
@@ -54,7 +54,7 @@
         }
 
         function play(file) {
-            jQuery.get("/play/?path=" + encodeURIComponent(file), function(data) {
+            jQuery.get("/play/", {path: encodeURIComponent(file)}, function(data) {
                 console.log(data);
             });
         }
