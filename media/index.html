@@ -22,8 +22,6 @@
         var file_div = document.getElementById("files");
 
         function cd(dir) {
-            var link;
-
             jQuery.get("/cd/", {path: encodeURIComponent(dir)}, function(data) {
                 folder_div.innerHTML = "";
                 file_div.innerHTML = "";
@@ -31,22 +29,23 @@
                 data.folders.splice(0, 0, "..");
 
                 data.folders.forEach(function(folder) {
-                    link = document.createElement("span");
-                    link.onclick = function() {
+                    var link = document.createElement("a");
+                    link.href = "#";
+                    link.textContent = folder;
+                    link.onclick = function(e) {
                         cd(folder);
                     };
-                    link.innerHTML = folder;
 
                     folder_div.appendChild(link);
                 });
 
                 data.files.forEach(function(file) {
-                    link = document.createElement("span");
+                    var link = document.createElement("a");
                     link.href = "#";
+                    link.textContent = file;
                     link.onclick = function() {
                         play(file);
                     };
-                    link.innerHTML = file;
 
                     file_div.appendChild(link);
                 });
@@ -59,6 +58,8 @@
             });
         }
 
-        cd("");
+        setTimeout(function() {
+            cd("");
+        }, 0);
     </script>
 </html>
