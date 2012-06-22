@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PiMMS</title>
+        <meta name="viewport" content="width=device-width" />
+        <script type="text/javascript" src="/media/jquery-1.6.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/media/style.css"></link>
+    </head>
+
+    <body>
+        <h1>PiMMS</h1>
+
+        <h2>Folders</h2>
+        <div id="folders"></div>
+
+        <h2>Files</h2>
+        <div id="files"></div>
+    </body>
+
+    <script>
+        var folder_div = document.getElementById("folders");
+        var file_div = document.getElementById("files");
+
+        function cd(dir) {
+            var link;
+
+            jQuery.get("/cd/?path=" + encodeURIComponent(dir), function(data) {
+                folder_div.innerHTML = "";
+                file_div.innerHTML = "";
+
+                data.folders.splice(0, 0, "..");
+
+                data.folders.forEach(function(folder) {
+                    link = document.createElement("span");
+                    link.onclick = function() {
+                        cd(folder);
+                    };
+                    link.innerHTML = folder;
+
+                    folder_div.appendChild(link);
+                });
+
+                data.files.forEach(function(file) {
+                    link = document.createElement("span");
+                    link.href = "#";
+                    link.onclick = function() {
+                        play(file);
+                    };
+                    link.innerHTML = file;
+
+                    file_div.appendChild(link);
+                });
+            });
+        }
+
+        function play(file) {
+            jQuery.get("/play/?path=" + encodeURIComponent(file), function(data) {
+                console.log(data);
+            });
+        }
+
+        cd("");
+    </script>
+</html>

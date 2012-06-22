@@ -1,0 +1,29 @@
+body, html {
+    background: #eee;
+    margin: 0 auto;
+    text-align: center;
+    width: 800px;
+}
+
+#folders span, #files span {
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    color: #000;
+    text-shadow: 0 0 1px #fff;
+    display: inline-block;
+}
+
+#folders span {
+    background: #ccd;
+}
+
+#files span {
+    background: #cdc;
+}
+
+#folders span:hover, #files span:hover {
+    background: #eee;
+    cursor: pointer;
+}
